@@ -13,3 +13,15 @@ type Project struct {
 	CreatedAt    time.Time     `gorm:"autoCreateTime"`
 	UpdatedAt    time.Time     `gorm:"autoUpdateTime"`
 }
+
+func (p *Project) Print() {
+	if p == nil {
+		panic("Missing param p Project")
+	}
+	res, err := json.Marshal(p)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(res))
+}
+
