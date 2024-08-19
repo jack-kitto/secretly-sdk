@@ -3,9 +3,12 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"os"
 	"time"
 
 	"github.com/brianvoe/gofakeit"
+	"gopkg.in/yaml.v3"
 )
 
 type Secret struct {
@@ -44,4 +47,22 @@ func Secret_fakeMany(num int) []Secret {
 		secrets = append(secrets, secret)
 	}
 	return secrets
+}
+
+func (s *Secret) ToYaml(filePath string) {
+	yamlFile, err := yaml.Marshal(s)
+	if err != nil {
+		panic(err)
+	}
+
+	f, err := os.Create(filePath)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	_, err = io.WriteString(f, string(yamlFile))
+	if err != nil {
+		panic(err)
+	}
 }
