@@ -40,8 +40,8 @@ func Environment_fakeMany(num int) []Environment {
 		env := Environment_fake()
 		// Ensure unique IDs or any other necessary unique fields
 		env.ID = gofakeit.UUID()
-		environments = append(environments, env)
 		env.Secrets = Secret_fakeMany(10)
+		environments = append(environments, env)
 	}
 	return environments
 }
