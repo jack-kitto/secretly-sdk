@@ -3,9 +3,12 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"os"
 	"time"
 
 	"github.com/brianvoe/gofakeit"
+	"gopkg.in/yaml.v3"
 )
 
 type Project struct {
@@ -32,4 +35,22 @@ func Project_fake() Project {
 	gofakeit.Struct(&p)
 	p.Environments = Environment_fakeMany(5)
 	return p
+}
+
+func (p *Project) ToYaml(filePath string) {
+	yamlFile, err := yaml.Marshal(p)
+	if err != nil {
+		panic(err)
+	}
+
+	f, err := os.Create(filePath)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	_, err = io.WriteString(f, string(yamlFile))
+	if err != nil {
+		panic(err)
+	}
 }
