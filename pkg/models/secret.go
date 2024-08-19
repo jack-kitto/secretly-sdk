@@ -18,7 +18,7 @@ type Secret struct {
 	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 }
 
-func (s *Secret) Print(filePath string) {
+func (s *Secret) Print() {
 	if s == nil {
 		panic("Missing param p Project")
 	}
