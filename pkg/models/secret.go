@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/brianvoe/gofakeit"
 )
 
 type Secret struct {
@@ -16,7 +18,7 @@ type Secret struct {
 	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 }
 
-func (s *Secret) Print() {
+func (s *Secret) Print(filePath string) {
 	if s == nil {
 		panic("Missing param p Project")
 	}
@@ -25,4 +27,21 @@ func (s *Secret) Print() {
 		panic(err)
 	}
 	fmt.Println(string(res))
+}
+
+func Secret_fake() Secret {
+	var s Secret
+	gofakeit.Struct(&s)
+	return s
+}
+
+func Secret_fakeMany(num int) []Secret {
+	var secrets []Secret
+	for i := 0; i < num; i++ {
+		secret := Secret_fake()
+		// Ensure unique IDs or any other necessary unique fields
+		secret.ID = gofakeit.UUID()
+		secrets = append(secrets, secret)
+	}
+	return secrets
 }

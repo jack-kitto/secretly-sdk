@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/brianvoe/gofakeit"
 )
 
 type Project struct {
@@ -25,3 +27,9 @@ func (p *Project) Print() {
 	fmt.Println(string(res))
 }
 
+func Project_fake() Project {
+	var p Project
+	gofakeit.Struct(&p)
+	p.Environments = Environment_fakeMany(5)
+	return p
+}

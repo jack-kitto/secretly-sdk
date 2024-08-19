@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/brianvoe/gofakeit"
 )
 
 type Environment struct {
@@ -24,4 +26,22 @@ func (e *Environment) Print() {
 		panic(err)
 	}
 	fmt.Println(string(res))
+}
+
+func Environment_fake() Environment {
+	var e Environment
+	gofakeit.Struct(&e)
+	return e
+}
+
+func Environment_fakeMany(num int) []Environment {
+	var environments []Environment
+	for i := 0; i < num; i++ {
+		env := Environment_fake()
+		// Ensure unique IDs or any other necessary unique fields
+		env.ID = gofakeit.UUID()
+		environments = append(environments, env)
+		env.Secrets = Secret_fakeMany(10)
+	}
+	return environments
 }
