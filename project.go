@@ -1,4 +1,4 @@
-package models
+package secretly
 
 import (
 	"encoding/json"

@@ -1,9 +1,8 @@
 package main
 
-import (
-	"github.com/jack-kitto/secretly-sdk/pkg/client"
-)
+import "github.com/jack-kitto/secretly-sdk"
 
 func main() {
-	client.HelloWorld()
+	p := secretly.Project_fake()
+	p.Print()
 }
