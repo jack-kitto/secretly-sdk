@@ -8,15 +8,16 @@ import (
 	"time"
 
 	"github.com/brianvoe/gofakeit"
+	"github.com/lucsky/cuid"
 	"gopkg.in/yaml.v3"
 )
 
 type Secret struct {
-	ID            string    `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	ID            string    `gorm:"primaryKey;type:text"`
 	Name          string    `gorm:"type:varchar(100);not null"`
 	Value         string    `gorm:"type:text;not null"`
-	ProjectID     string    `gorm:"type:uuid;not null"`
-	EnvironmentID string    `gorm:"type:uuid;not null"`
+	ProjectID     string    `gorm:"type:text;not null"`
+	EnvironmentID string    `gorm:"type:text;not null"`
 	CreatedAt     time.Time `gorm:"autoCreateTime"`
 	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
 }
@@ -64,5 +65,17 @@ func (s *Secret) ToYaml(filePath string) {
 	_, err = io.WriteString(f, string(yamlFile))
 	if err != nil {
 		panic(err)
+	}
+}
+
+func Secret_build(name string, value string, project Project, environment Environment) Secret {
+	return Secret{
+		ID:            cuid.New(),
+		Name:          name,
+		Value:         value,
+		ProjectID:     project.ID,
+		EnvironmentID: environment.ID,
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
 	}
 }
