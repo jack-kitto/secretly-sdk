@@ -54,3 +54,13 @@ func (p *Project) ToYaml(filePath string) {
 		panic(err)
 	}
 }
+
+func (p *Project) DistributeSecrets(secrets []Secret) {
+	for i, environment := range p.Environments {
+		for _, secret := range secrets {
+			if secret.InEnvironment(environment) {
+				p.Environments[i].Secrets = append(p.Environments[i].Secrets, secret)
+			}
+		}
+	}
+}
