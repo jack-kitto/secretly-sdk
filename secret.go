@@ -79,3 +79,7 @@ func Secret_build(name string, value string, project Project, environment Enviro
 		UpdatedAt:     time.Now(),
 	}
 }
+
+func (s *Secret) InEnvironment(e Environment) bool {
+	return s.EnvironmentID == e.ID
+}
